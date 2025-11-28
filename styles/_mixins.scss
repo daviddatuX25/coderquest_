@@ -1,0 +1,93 @@
+// Flexbox Mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+}
+
+// Background Gradient
+@mixin gradient-background {
+  background: linear-gradient(135deg, $bg-dark, $bg-darker, $bg-dark);
+}
+
+// Button Styles
+@mixin button-base {
+  border: none;
+  padding: $padding-sm $padding-md;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+  font-family: $font-primary;
+  transition: all $transition-fast;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background: $primary-color;
+  color: $bg-dark;
+  
+  &:hover {
+    background: $primary-dark;
+    @include button-base;
+  }
+}
+
+// Border with Glow
+@mixin border-glow {
+  border: 3px solid $border-color;
+  box-shadow: $box-shadow, $glow-shadow;
+}
+
+// Text Shadow
+@mixin text-glow {
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+// Responsive Media Query
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+// Fade In Animation
+@mixin fade-in {
+  animation: fadeIn $transition-normal ease-in-out;
+}
+
+// Slide Up Animation
+@mixin slide-up {
+  animation: slideUp $transition-normal ease-out;
+}

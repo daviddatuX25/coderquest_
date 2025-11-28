@@ -1,0 +1,136 @@
+@import './variables';
+@import './mixins';
+
+.quest-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $spacing-lg;
+
+  &.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.quest-popup {
+  position: relative;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  border-radius: $radius-xl;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  z-index: 2001;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: slideInUp 300ms ease-out;
+  pointer-events: auto;
+
+  @include tablet-up {
+    max-width: 700px;
+  }
+
+  @include mobile-only {
+    max-width: calc(100% - 32px);
+  }
+}
+
+.quest-close-btn {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $color-primary;
+  color: white;
+  border: none;
+  border-radius: $radius-full;
+  font-size: $font-size-lg;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 200ms ease-in-out;
+
+  &:hover {
+    background: $color-primary-dark;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.quest-content {
+  padding: $spacing-2xl $spacing-lg $spacing-lg;
+
+  @include mobile-only {
+    padding: $spacing-xl $spacing-md $spacing-md;
+  }
+
+  &.lesson {
+    animation: fadeIn 200ms ease-in;
+  }
+
+  &.quiz {
+    animation: fadeIn 200ms ease-in;
+  }
+}
+
+// Animations
+@keyframes slideInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Scrollbar customization
+.quest-popup {
+  scrollbar-width: thin;
+  scrollbar-color: $color-primary-light rgba(0, 0, 0, 0.1);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: $radius-full;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-primary;
+    border-radius: $radius-full;
+
+    &:hover {
+      background: $color-primary-dark;
+    }
+  }
+}

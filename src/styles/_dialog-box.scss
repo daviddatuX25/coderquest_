@@ -1,0 +1,165 @@
+@import './variables';
+@import './mixins';
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+  pointer-events: none;
+  
+  &.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.dialog-box {
+  position: relative;
+  background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+  border-radius: $radius-xl;
+  box-shadow: $shadow-2xl;
+  z-index: $z-modal;
+  max-width: 500px;
+  width: 90%;
+  animation: slideInUp $transition-slow ease-out;
+  margin: auto;
+  overflow: hidden;
+  transform-origin: center;
+  pointer-events: auto;
+
+  @include mobile-only {
+    max-width: calc(100% - #{$spacing-lg});
+  }
+}
+
+.dialog-header {
+  @include flex-between;
+  padding: $spacing-lg;
+  border-bottom: 2px solid $color-border;
+  background: linear-gradient(90deg, $color-primary 0%, $color-secondary 100%);
+  color: white;
+  gap: $spacing-md;
+}
+
+.dialog-npc-name {
+  margin: 0;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.5px;
+}
+
+.dialog-close-btn {
+  @include button-reset;
+  width: 36px;
+  height: 36px;
+  @include flex-center;
+  border-radius: $radius-full;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  transition: all $transition-base;
+  flex-shrink: 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.dialog-content {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  min-height: 120px;
+  align-items: flex-start;
+}
+
+.dialog-sprite {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  background: $color-primary-light;
+  @include flex-center;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+}
+
+.dialog-text {
+  flex: 1;
+  @include flex-column;
+  justify-content: center;
+
+  p {
+    margin: 0;
+    font-size: $font-size-base;
+    line-height: 1.6;
+    color: $color-text-primary;
+    font-weight: $font-weight-normal;
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  border-top: 1px solid $color-border;
+  background: $color-bg-light;
+  justify-content: flex-end;
+}
+
+.dialog-action-btn {
+  @include button-reset;
+  padding: $spacing-sm $spacing-lg;
+  background: linear-gradient(90deg, $color-primary 0%, $color-primary-dark 100%);
+  color: white;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all $transition-base;
+  min-width: 120px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: $shadow-md;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Animation for dialog appearance
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,36 @@
+// Color Variables
+$primary-color: #00ff88;
+$primary-dark: #00dd77;
+$primary-light: #00ffaa;
+$secondary-color: #ffff00;
+$danger-color: #ff0000;
+$bg-dark: #0d1b2a;
+$bg-darker: #1b263b;
+$bg-light: #2a4a7f;
+$text-color: #00ff88;
+$text-light: #e0eaff;
+$text-yellow: #ffff00;
+$border-color: #00ff88;
+
+// Font Variables
+$font-primary: "Segoe UI", sans-serif;
+$font-mono: monospace;
+
+// Size Variables
+$border-radius: 8px;
+$border-radius-lg: 12px;
+$padding-sm: 10px;
+$padding-md: 15px;
+$padding-lg: 20px;
+$box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+$glow-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+
+// Z-index Variables
+$z-dialog: 200;
+$z-info: 100;
+$z-default: 1;
+
+// Transition Variables
+$transition-fast: 0.2s;
+$transition-normal: 0.3s;
+$transition-slow: 0.5s;

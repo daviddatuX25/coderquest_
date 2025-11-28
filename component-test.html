@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoderQuest - React Component Testing</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #0d1b2a, #1b263b, #0d1b2a);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    #root {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .test-container {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .test-header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .test-header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 10px;
+    }
+
+    .test-header p {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .test-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .test-btn {
+      padding: 12px 24px;
+      background: linear-gradient(90deg, #3b82f6 0%, #1e40af 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 200ms ease-in-out;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+
+    .test-btn.secondary {
+      background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+    }
+
+    .test-btn.tertiary {
+      background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+    }
+
+    .test-info {
+      background: #f0f9ff;
+      border: 1px solid #93c5fd;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 13px;
+      color: #0c4a6e;
+      line-height: 1.6;
+    }
+
+    .test-info strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .test-info code {
+      background: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <div class="test-header">
+      <h1>🧪 CoderQuest React Component Test</h1>
+      <p>Test the React components in isolation</p>
+    </div>
+
+    <div class="test-buttons">
+      <button class="test-btn" onclick="testDialog()">
+        💬 Test Dialog
+      </button>
+      <button class="test-btn secondary" onclick="testLesson()">
+        📖 Test Lesson
+      </button>
+      <button class="test-btn tertiary" onclick="testQuiz()">
+        ✅ Test Quiz
+      </button>
+    </div>
+
+    <div class="test-info">
+      <strong>📋 Component Testing Guide:</strong>
+      
+      <div style="margin-top: 12px;">
+        <strong>Dialog Component:</strong><br>
+        Shows NPC interactions with name, sprite, and dialog text.
+      </div>
+
+      <div style="margin-top: 12px;">
+        <strong>Lesson Component:</strong><br>
+        Displays educational content with sections, code blocks, and lists.
+      </div>
+
+      <div style="margin-top: 12px;">
+        <strong>Quiz Component:</strong><br>
+        Interactive quizzes with multiple choice and fill-in-the-blanks questions.
+        Shows progress, feedback, and scoring.
+      </div>
+
+      <div style="margin-top: 12px;">
+        <strong>Keyboard Shortcuts (in Phaser game):</strong><br>
+        Press <code>D</code> for Dialog | Press <code>Q</code> for Quest/Lesson
+      </div>
+    </div>
+  </div>
+
+  <!-- Root element for React -->
+  <div id="root"></div>
+
+  <script>
+    // Placeholder functions - would be connected to React in real app
+    function testDialog() {
+      console.log('Testing Dialog Component');
+      alert('Dialog test - Check console for details');
+    }
+
+    function testLesson() {
+      console.log('Testing Lesson Component');
+      alert('Lesson test - Check console for details');
+    }
+
+    function testQuiz() {
+      console.log('Testing Quiz Component');
+      alert('Quiz test - Check console for details');
+    }
+  </script>
+</body>
+</html>

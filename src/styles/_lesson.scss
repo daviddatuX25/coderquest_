@@ -1,0 +1,223 @@
+@import './variables';
+@import './mixins';
+
+.lesson-container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.lesson-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 2px solid $color-border;
+
+  h2 {
+    margin: 0;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+    flex: 1;
+  }
+}
+
+.lesson-close-btn {
+  background: none;
+  border: none;
+  font-size: $font-size-xl;
+  color: $color-text-secondary;
+  cursor: pointer;
+  padding: $spacing-xs;
+  transition: all 200ms ease-in-out;
+  display: none; // Redundant with quest-close-btn
+
+  &:hover {
+    color: $color-primary;
+    transform: scale(1.2);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+    border-radius: $radius-md;
+  }
+}
+
+.lesson-content {
+  flex: 1;
+  color: $color-text-primary;
+  line-height: 1.8;
+  overflow-y: auto;
+  max-height: 400px;
+  padding-right: $spacing-sm;
+
+  p {
+    margin: 0 0 $spacing-md 0;
+    font-size: $font-size-base;
+    font-weight: $font-weight-normal;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.content-section {
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-lg;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  h3 {
+    margin: 0 0 $spacing-md 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-primary;
+  }
+
+  p {
+    margin: 0 0 $spacing-md 0;
+    font-size: $font-size-base;
+    line-height: 1.7;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.code-block {
+  background: $color-bg-darker;
+  color: #a1e3ff;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  border-left: 4px solid $color-info;
+  overflow-x: auto;
+  margin: $spacing-md 0;
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  line-height: 1.6;
+
+  code {
+    white-space: pre;
+  }
+}
+
+.content-list {
+  list-style: none;
+  padding: 0;
+  margin: $spacing-md 0;
+
+  li {
+    padding: $spacing-sm 0 $spacing-sm $spacing-lg;
+    position: relative;
+    font-size: $font-size-base;
+    line-height: 1.6;
+
+    &:before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: $color-primary;
+      font-weight: bold;
+    }
+  }
+}
+
+.lesson-footer {
+  display: flex;
+  gap: $spacing-md;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $color-border;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.lesson-close-btn-secondary,
+.lesson-start-quiz-btn {
+  padding: $spacing-sm $spacing-lg;
+  border: none;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  white-space: nowrap;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+.lesson-close-btn-secondary {
+  background: $color-border;
+  color: $color-text-primary;
+
+  &:hover {
+    background: #d1d5db;
+  }
+}
+
+.lesson-start-quiz-btn {
+  background: linear-gradient(90deg, $color-primary 0%, #0284c7 100%);
+  color: white;
+  min-width: 140px;
+
+  &:hover {
+    background: linear-gradient(90deg, #2563eb 0%, #0369a1 100%);
+  }
+}
+
+// Scrollbar for lesson content
+.lesson-content {
+  scrollbar-width: thin;
+  scrollbar-color: $color-primary rgba(0, 0, 0, 0.05);
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: $radius-full;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-primary;
+    border-radius: $radius-full;
+
+    &:hover {
+      background: $color-primary-dark;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .lesson-footer {
+    flex-direction: column;
+
+    .lesson-close-btn-secondary,
+    .lesson-start-quiz-btn {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+// Responsive Layout
+
+// Mobile Layout
+@include mobile {
+  body {
+    font-size: 14px;
+  }
+  
+  .game-wrapper {
+    padding: $padding-sm;
+  }
+  
+  .game-info,
+  .level-indicator {
+    font-size: 11px;
+    padding: $padding-sm;
+  }
+  
+  .dialog-box {
+    max-width: 90vw;
+    padding: $padding-md;
+  }
+}
+
+// Tablet Layout
+@include tablet {
+  .game-wrapper {
+    padding: $padding-md;
+  }
+  
+  body {
+    font-size: 15px;
+  }
+}
+
+// Desktop Layout
+@include desktop {
+  .game-wrapper {
+    padding: $padding-lg;
+  }
+  
+  .game-container {
+    max-width: 1400px;
+  }
+}
+
+// Landscape Orientation (Mobile)
+@media (max-height: 600px) {
+  .game-info {
+    top: 0;
+    left: 0;
+    font-size: 11px;
+  }
+  
+  .level-indicator {
+    display: none;
+  }
+}

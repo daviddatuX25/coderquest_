@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CoderQuest - Phaser + React</title>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1b2a;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-container {
+      display: flex;
+      gap: 40px;
+      max-width: 1200px;
+      width: 90%;
+      align-items: flex-start;
+    }
+
+    .game-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    #phaser-game {
+      border: 3px solid #3b82f6;
+      border-radius: 8px;
+      background: #1e3a5f;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .react-section {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 8px;
+      border: 2px solid #3b82f6;
+      min-height: 500px;
+      overflow-y: auto;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: #1e3a5f;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      border: 2px solid #3b82f6;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 15px;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      color: #60a5fa;
+    }
+
+    .modal-close {
+      background: #ef4444;
+      color: white;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      background: #dc2626;
+    }
+
+    .modal-body {
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .modal-footer button {
+      background: #10b981;
+    }
+
+    .modal-footer button:hover {
+      background: #059669;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      color: #60a5fa;
+      text-align: center;
+    }
+
+    .status {
+      text-align: center;
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .main-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .react-section {
+        min-height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎮 CoderQuest - Phaser + React Components Test</h1>
+
+<div class="main-container">
+  <!-- Phaser Game Section -->
+  <div class="game-section">
+    <div id="phaser-game"></div>
+    <div class="button-container">
+      <button id="testDialogBtn">💬 Show Dialog</button>
+      <button id="testQuestBtn">📖 Show Quest</button>
+      <button id="testResultsBtn">🎯 Show Results</button>
+    </div>
+    <div class="status">Press buttons above or click in Phaser game</div>
+  </div>
+
+  <!-- React Components Section -->
+  <div class="react-section" id="react-root">
+    <p style="color: #9ca3af; text-align: center;">React components will appear here...</p>
+  </div>
+</div>
+
+<!-- Modal Container for React Components -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+// ============================================
+// EVENT EMITTER SYSTEM
+// ============================================
+class EventEmitter {
+  constructor() {
+    this.events = {};
+  }
+
+  on(eventName, callback) {
+    if (!this.events[eventName]) {
+      this.events[eventName] = [];
+    }
+    this.events[eventName].push(callback);
+    return () => this.off(eventName, callback);
+  }
+
+  off(eventName, callback) {
+    if (this.events[eventName]) {
+      this.events[eventName] = this.events[eventName].filter(cb => cb !== callback);
+    }
+  }
+
+  emit(eventName, data) {
+    if (this.events[eventName]) {
+      this.events[eventName].forEach(cb => cb(data));
+    }
+  }
+}
+
+const gameEvents = new EventEmitter();
+window.gameEvents = gameEvents;
+
+// ============================================
+// MODAL MANAGER
+// ============================================
+class ModalManager {
+  constructor() {
+    this.overlay = document.getElementById('modalOverlay');
+    this.content = document.getElementById('modalContent');
+  }
+
+  show(html) {
+    this.content.innerHTML = html;
+    this.overlay.classList.add('show');
+  }
+
+  hide() {
+    this.overlay.classList.remove('show');
+    this.content.innerHTML = '';
+  }
+}
+
+const modalManager = new ModalManager();
+
+// Close modal on overlay click
+document.getElementById('modalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modalOverlay')) {
+    modalManager.hide();
+  }
+});
+
+// ============================================
+// MINIMAL PHASER GAME
+// ============================================
+class GameScene extends Phaser.Scene {
+  constructor() {
+    super('GameScene');
+  }
+
+  create() {
+    // Add simple background
+    this.add.rectangle(400, 300, 800, 600, 0x1e3a5f);
+    
+    // Add title text
+    this.add.text(400, 100, 'Phaser Game', {
+      font: '32px Arial',
+      fill: '#60a5fa',
+      align: 'center'
+    }).setOrigin(0.5);
+
+    // Add info text
+    this.add.text(400, 300, 'Click button below to test React components', {
+      font: '18px Arial',
+      fill: '#9ca3af',
+      align: 'center'
+    }).setOrigin(0.5).setWordWrapWidth(700);
+
+    // Store scene for button access
+    window.gameScene = this;
+  }
+}
+
+const config = {
+  type: Phaser.AUTO,
+  width: 400,
+  height: 600,
+  parent: 'phaser-game',
+  backgroundColor: '#1e3a5f',
+  scene: GameScene
+};
+
+const game = new Phaser.Game(config);
+
+// ============================================
+// REACT COMPONENT RENDERERS
+// ============================================
+
+// Sample Dialog
+function showDialog() {
+  const html = `
+    <div class="modal-header">
+      <h2>💬 NPC Dialog</h2>
+      <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('show')">×</button>
+    </div>
+    <div class="modal-body">
+      <p><strong>NPC Name:</strong> Mage</p>
+      <p><strong>Dialog:</strong> "Welcome, brave adventurer! I sense great potential in you. Are you ready to learn the ways of magic?"</p>
+    </div>
+    <div class="modal-footer">
+      <button onclick="document.getElementById('modalOverlay').classList.remove('show')">Close</button>
+    </div>
+  `;
+  modalManager.show(html);
+}
+
+// Sample Quest with Lesson
+function showQuest() {
+  const html = `
+    <div class="modal-header">
+      <h2>📖 Quest: Introduction to Variables</h2>
+      <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('show')">×</button>
+    </div>
+    <div class="modal-body">
+      <h3 style="color: #60a5fa; margin-bottom: 10px;">Lesson Content</h3>
+      <p>Variables are containers for storing data values in programming. They have three main characteristics:</p>
+      <ul style="margin: 15px 0; margin-left: 20px;">
+        <li><strong>Name:</strong> The identifier you use to reference the variable</li>
+        <li><strong>Type:</strong> The kind of data it stores (number, string, boolean, etc.)</li>
+        <li><strong>Value:</strong> The actual data stored in the variable</li>
+      </ul>
+      <p style="margin-top: 15px;">Example: <code style="background: #0d1b2a; padding: 5px; border-radius: 3px;">let age = 25;</code></p>
+    </div>
+    <div class="modal-footer">
+      <button onclick="showQuiz()">Start Quiz →</button>
+      <button onclick="document.getElementById('modalOverlay').classList.remove('show')">Close</button>
+    </div>
+  `;
+  modalManager.show(html);
+}
+
+// Sample Quiz
+function showQuiz() {
+  const html = `
+    <div class="modal-header">
+      <h2>🧪 Quiz: Variables</h2>
+      <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('show')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="background: #0d1b2a; padding: 10px; border-radius: 6px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+          <span>Question 1 of 2</span>
+          <span id="progress" style="color: #60a5fa;">50%</span>
+        </div>
+        <div style="background: #1a2332; height: 6px; border-radius: 3px;">
+          <div style="background: #60a5fa; height: 100%; width: 50%; border-radius: 3px;"></div>
+        </div>
+      </div>
+
+      <h3 style="color: #60a5fa; margin-bottom: 15px;">What is a variable?</h3>
+      
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+        <button style="background: #374151; text-align: left; padding: 15px; border: 2px solid transparent;" 
+                onclick="this.style.borderColor = '#10b981'; this.style.background = '#1f3a2f';">
+          A) A container for storing data values
+        </button>
+        <button style="background: #374151; text-align: left; padding: 15px; border: 2px solid transparent;" 
+                onclick="this.style.borderColor = '#ef4444'; this.style.background = '#3f2121';">
+          B) A function that performs calculations
+        </button>
+        <button style="background: #374151; text-align: left; padding: 15px; border: 2px solid transparent;" 
+                onclick="this.style.borderColor = '#ef4444'; this.style.background = '#3f2121';">
+          C) A loop that repeats code
+        </button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button onclick="showResults()">Next Question →</button>
+    </div>
+  `;
+  modalManager.show(html);
+}
+
+// Sample Results
+function showResults() {
+  const html = `
+    <div class="modal-header">
+      <h2>🎉 Quiz Complete!</h2>
+      <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('show')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 64px; color: #10b981; font-weight: bold; margin-bottom: 10px;">85%</div>
+        <p style="font-size: 18px; color: #60a5fa;">Great Job! You passed!</p>
+      </div>
+      
+      <div style="background: #0d1b2a; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+        <p><strong style="color: #60a5fa;">Score Breakdown:</strong></p>
+        <p>✓ Correct: <span style="color: #10b981;">2/2</span></p>
+        <p>✗ Incorrect: <span style="color: #ef4444;">0/2</span></p>
+      </div>
+      
+      <p style="color: #9ca3af; font-size: 14px;">You answered 85% of questions correctly. Keep practicing to improve!</p>
+    </div>
+    <div class="modal-footer">
+      <button onclick="showQuiz()">Retry</button>
+      <button onclick="showQuest()">Back to Lesson</button>
+      <button onclick="document.getElementById('modalOverlay').classList.remove('show')">Close</button>
+    </div>
+  `;
+  modalManager.show(html);
+}
+
+// ============================================
+// BUTTON CLICK HANDLERS
+// ============================================
+document.getElementById('testDialogBtn').addEventListener('click', () => {
+  showDialog();
+  gameEvents.emit('showDialog', { name: 'Mage', dialog: 'Welcome!' });
+});
+
+document.getElementById('testQuestBtn').addEventListener('click', () => {
+  showQuest();
+  gameEvents.emit('showQuest', { id: 'quest-1', title: 'Variables' });
+});
+
+document.getElementById('testResultsBtn').addEventListener('click', () => {
+  showResults();
+  gameEvents.emit('showResults', { score: 85, total: 100 });
+});
+
+// Listen for events from Phaser if needed
+gameEvents.on('showDialog', (data) => {
+  console.log('Dialog event:', data);
+});
+
+gameEvents.on('showQuest', (data) => {
+  console.log('Quest event:', data);
+});
+
+gameEvents.on('showResults', (data) => {
+  console.log('Results event:', data);
+});
+</script>
+
+</body>
+</html>

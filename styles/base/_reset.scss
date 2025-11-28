@@ -1,0 +1,33 @@
+// CSS Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  @include gradient-background;
+  font-family: $font-primary;
+  overflow: hidden;
+  position: relative;
+}
+
+// Remove default focus styles
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  outline: none;
+}
+
+// Smooth scrolling
+html {
+  scroll-behavior: smooth;
+}

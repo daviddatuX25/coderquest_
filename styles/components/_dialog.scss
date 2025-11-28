@@ -1,0 +1,119 @@
+// Dialog Box
+.dialog-box {
+  position: fixed;
+  bottom: $padding-lg;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba($bg-dark, 0.95);
+  color: $primary-color;
+  padding: $padding-lg;
+  border-radius: $border-radius;
+  @include border-glow;
+  font-size: 14px;
+  max-width: 600px;
+  z-index: $z-dialog;
+  display: none;
+  text-align: center;
+  opacity: 0;
+  transition: opacity $transition-normal;
+  
+  @include mobile {
+    max-width: 85vw;
+    padding: $padding-md;
+    bottom: $padding-md;
+  }
+  
+  &.show {
+    display: block;
+    opacity: 1;
+    @include slide-up;
+  }
+}
+
+// Dialog Title
+.dialog-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: $padding-md;
+  color: $secondary-color;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+// Dialog Text
+.dialog-text {
+  font-size: 14px;
+  color: $text-light;
+  line-height: 1.6;
+  margin-bottom: $padding-md;
+  font-style: italic;
+}
+
+// Dialog Controls
+.dialog-controls {
+  margin-top: $padding-md;
+  display: flex;
+  gap: $padding-md;
+  justify-content: center;
+  flex-wrap: wrap;
+  
+  @include mobile {
+    flex-direction: column;
+    gap: $padding-sm;
+  }
+}
+
+// Button Styles
+.btn {
+  @include button-primary;
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+// Quest Button
+.btn-quest {
+  @include button-primary;
+  background: $secondary-color;
+  color: $bg-dark;
+  
+  &:hover {
+    background: lighten($secondary-color, 10%);
+  }
+}
+
+// Close Button
+.btn-close {
+  @include button-primary;
+  
+  &:hover {
+    background: $danger-color;
+  }
+}
+
+// Animations
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY($padding-lg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
