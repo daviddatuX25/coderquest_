@@ -1,5 +1,5 @@
-@import './styles/variables';
-@import './styles/mixins';
+@import './variables';
+@import './mixins';
 
 /* Reset and Base Styles */
 * {
@@ -21,6 +21,35 @@ body {
   background: $color-bg-dark;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* App Container */
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Phaser Game Container */
+#phaser-game {
+  display: block !important;
+  width: 1024px;
+  height: 600px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #3b82f6;
+}
+
+#phaser-game canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 /* Game UI Container */
@@ -40,13 +69,13 @@ body {
 }
 
 /* Component-specific imports */
-@import './styles/dialog-box';
-@import './styles/quest-popup';
-@import './styles/lesson';
-@import './styles/quiz';
-@import './styles/multiple-choice';
-@import './styles/fill-in-blanks';
-@import './styles/quiz-results';
+@import './_dialog-box';
+@import './_quest-popup';
+@import './_lesson';
+@import './_quiz';
+@import './_multiple-choice';
+@import './_fill-in-blanks';
+@import './_quiz-results';
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
