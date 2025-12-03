@@ -17,9 +17,12 @@ const Quiz = ({ quizData, onComplete, onBack }) => {
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [showResults, setShowResults] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const currentQuestion = quizData.questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / quizData.questions.length) * 100;
+  const isLastQuestion = currentQuestionIndex === quizData.questions.length - 1;
+  const hasAnswered = answers.some(a => a.questionIndex === currentQuestionIndex);
 
   const handleAnswer = (questionId, selectedAnswer, isCorrect) => {
     // Store answer
@@ -38,15 +41,18 @@ const Quiz = ({ quizData, onComplete, onBack }) => {
     if (isCorrect) {
       setScore(prev => prev + 1);
     }
+  };
 
-    // Move to next question after brief delay
+  const handleNextQuestion = () => {
+    setIsTransitioning(true);
     setTimeout(() => {
       if (currentQuestionIndex < quizData.questions.length - 1) {
         setCurrentQuestionIndex(prev => prev + 1);
       } else {
         setShowResults(true);
       }
-    }, 1500);
+      setIsTransitioning(false);
+    }, 300);
   };
 
   const handleRetry = () => {
@@ -64,6 +70,7 @@ const Quiz = ({ quizData, onComplete, onBack }) => {
         answers={answers}
         onRetry={handleRetry}
         onBack={onBack}
+        onSubmit={onComplete}
       />
     );
   }
@@ -86,9 +93,10 @@ const Quiz = ({ quizData, onComplete, onBack }) => {
         <span className="progress-text">{Math.round(progress)}%</span>
       </div>
 
-      <div className="quiz-content">
+      <div className={`quiz-content ${isTransitioning ? 'transitioning' : ''}`}>
         {currentQuestion.type === 'multipleChoice' && (
           <MultipleChoiceQuestion
+            key={`mc-${currentQuestionIndex}`}
             question={currentQuestion}
             onAnswer={handleAnswer}
             disabled={false}
@@ -97,6 +105,7 @@ const Quiz = ({ quizData, onComplete, onBack }) => {
 
         {currentQuestion.type === 'fillInBlanks' && (
           <FillInBlanksQuestion
+            key={`fib-${currentQuestionIndex}`}
             question={currentQuestion}
             onAnswer={handleAnswer}
             disabled={false}
@@ -108,6 +117,15 @@ const Quiz = ({ quizData, onComplete, onBack }) => {
         <button className="back-btn" onClick={onBack}>
           Exit Quiz
         </button>
+        {hasAnswered && (
+          <button 
+            className="next-btn" 
+            onClick={handleNextQuestion}
+            disabled={isTransitioning}
+          >
+            {isLastQuestion ? 'See Results' : 'Next Question →'}
+          </button>
+        )}
       </div>
     </div>
   );

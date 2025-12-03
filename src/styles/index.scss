@@ -69,6 +69,8 @@ body {
 }
 
 /* Component-specific imports */
+@import './_main-menu';
+@import './_quest-level';
 @import './_dialog-box';
 @import './_quest-popup';
 @import './_lesson';

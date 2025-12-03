@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGameEventEmitter } from '../hooks/useGameEvents';
 import '../styles/_quiz-results.scss';
 
 /**
@@ -11,7 +12,8 @@ import '../styles/_quiz-results.scss';
  *   - onRetry: callback to retry quiz
  *   - onBack: callback to go back to lesson
  */
-const QuizResults = ({ score, totalQuestions, answers, onRetry, onBack }) => {
+const QuizResults = ({ score, totalQuestions, answers, onRetry, onBack, onSubmit }) => {
+  const { emit } = useGameEventEmitter();
   const percentage = (score / totalQuestions) * 100;
   const passed = percentage >= 70;
 
@@ -34,6 +36,23 @@ const QuizResults = ({ score, totalQuestions, answers, onRetry, onBack }) => {
     if (percentage >= 70) return 'good';
     if (percentage >= 50) return 'fair';
     return 'poor';
+  };
+
+  const handleSubmitQuest = () => {
+    // Call the onSubmit callback with score and results
+    if (onSubmit) {
+      onSubmit(Math.round(percentage), {
+        totalQuestions,
+        correctAnswers: score,
+        answers: answers
+      });
+    }
+    
+    // Close the quest modal with a brief delay for visual feedback
+    setTimeout(() => {
+      // Emit closePopup to actually close the React component
+      emit('closePopup', {});
+    }, 800);
   };
 
   return (
@@ -77,12 +96,25 @@ const QuizResults = ({ score, totalQuestions, answers, onRetry, onBack }) => {
       </div>
 
       <div className="results-footer">
-        <button className="results-btn retry-btn" onClick={onRetry}>
-          Retry Quiz
-        </button>
-        <button className="results-btn back-btn" onClick={onBack}>
-          Back to Lesson
-        </button>
+        {passed ? (
+          <>
+            <button className="results-btn back-btn" onClick={onBack}>
+              Back to Lesson
+            </button>
+            <button className="results-btn submit-btn" onClick={handleSubmitQuest}>
+              Complete Quest
+            </button>
+          </>
+        ) : (
+          <>
+            <button className="results-btn back-btn" onClick={onBack}>
+              Back to Lesson
+            </button>
+            <button className="results-btn retry-btn" onClick={onRetry}>
+              Retry Quiz
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

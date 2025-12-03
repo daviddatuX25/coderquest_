@@ -1,0 +1,109 @@
+.audio-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+
+  .audio-settings-toggle {
+    display: none;
+  }
+
+  .audio-settings-panel {
+    position: static;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    min-width: auto;
+    box-shadow: none;
+    z-index: auto;
+    animation: none;
+
+    h3 {
+      display: none;
+    }
+
+    .setting-group {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      label {
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95em;
+        cursor: pointer;
+        user-select: none;
+
+        input[type="checkbox"] {
+          width: 18px;
+          height: 18px;
+          cursor: pointer;
+          accent-color: #4CAF50;
+        }
+      }
+
+      .volume-slider {
+        width: 100%;
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(76, 175, 80, 0.2);
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: #4CAF50;
+          cursor: pointer;
+          box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+
+          &:hover {
+            background: #66BB6A;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.8);
+          }
+        }
+
+        &::-moz-range-thumb {
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: #4CAF50;
+          cursor: pointer;
+          border: none;
+          box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+
+          &:hover {
+            background: #66BB6A;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.8);
+          }
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+
+          &::-webkit-slider-thumb {
+            cursor: not-allowed;
+          }
+
+          &::-moz-range-thumb {
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+  }
+}
+

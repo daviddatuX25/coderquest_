@@ -13,7 +13,7 @@ export const gameConfig = {
     default: 'arcade',
     arcade: {
       gravity: { y: 0 },
-      debug: true  // DEBUG ENABLED - shows collision bodies
+      debug: false  // DEBUG ENABLED - shows collision bodies
     }
   },
   scene: [BootScene, MainScene],

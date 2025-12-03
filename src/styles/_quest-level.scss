@@ -1,0 +1,531 @@
+// Quest Level UI Styles
+// Standalone lesson and quiz interface
+
+.quest-level-ui {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #0d1b2a 0%, #1e3a5f 100%);
+  color: #e0eaff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  overflow: hidden;
+}
+
+// Header
+.ql-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  gap: 1rem;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.ql-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  flex: 1;
+  text-align: center;
+}
+
+.ql-top-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #e0eaff;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 150ms ease-in-out;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #60a5fa;
+  }
+
+  &.hamburger {
+    display: none;
+  }
+}
+
+// Mobile Dropdown
+.ql-mobile-dropdown {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 99;
+  animation: slideDown 200ms ease-out;
+}
+
+.ql-dropdown-panel {
+  padding: 1rem;
+}
+
+.ql-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// Container
+.ql-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  gap: 0;
+}
+
+// Sidebar
+.ql-sidebar {
+  width: 250px;
+  background: rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  transition: width 300ms ease-in-out;
+
+  &.collapsed {
+    width: 60px;
+  }
+
+  /* Hide scrollbar but keep scrolling functional */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
+.ql-nav-panel {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem 0;
+
+  /* Hide scrollbar but keep scrolling functional */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
+.ql-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ql-nav-item {
+  padding: 0.75rem 0.5rem;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 150ms ease-in-out;
+  user-select: none;
+
+  &:hover:not(.locked) {
+    background: rgba(59, 130, 246, 0.1);
+    border-left-color: #3b82f6;
+  }
+
+  &.active {
+    background: rgba(59, 130, 246, 0.2);
+    border-left-color: #3b82f6;
+
+    .ql-nav-icon {
+      color: #60a5fa;
+    }
+  }
+
+  &.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.ql-nav-item-content {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0 0.5rem;
+}
+
+.ql-nav-icon {
+  font-size: 1.25rem;
+  min-width: 30px;
+  text-align: center;
+  transition: color 150ms ease-in-out;
+}
+
+.ql-nav-label {
+  flex: 1;
+  min-width: 0;
+
+  .sidebar.collapsed & {
+    display: none;
+  }
+}
+
+.ql-nav-type {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ql-nav-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.ql-npc-pin {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 0.5rem;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ql-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  background: rgba(59, 130, 246, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+// Main Content
+.ql-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ql-content-area {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Hide scrollbar but keep scrolling functional */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  h2 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+
+  p {
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+  }
+}
+
+// Questions
+.ql-question {
+  animation: fadeIn 300ms ease-in-out;
+}
+
+.ql-question-text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: #e0eaff;
+}
+
+.ql-choices {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.ql-choice {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+  user-select: none;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+
+  &.selected {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: #3b82f6;
+    color: #60a5fa;
+  }
+}
+
+.ql-input-answer {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #e0eaff;
+  font-size: 1rem;
+  font-family: inherit;
+  margin-bottom: 1rem;
+  transition: all 150ms ease-in-out;
+
+  &:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #3b82f6;
+  }
+
+  &::placeholder {
+    color: rgba(224, 234, 255, 0.5);
+  }
+}
+
+.ql-question-progress {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.ql-result {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  animation: slideDown 200ms ease-out;
+
+  &.correct {
+    background: rgba(16, 185, 129, 0.1);
+    border-left: 4px solid #10b981;
+    color: #a7f3d0;
+  }
+
+  &.incorrect {
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 4px solid #ef4444;
+    color: #fca5a5;
+  }
+
+  .small {
+    margin-top: 0.5rem;
+  }
+}
+
+// Controls
+.ql-controls-desktop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 1rem;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.ql-controls {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.ql-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 150ms ease-in-out;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e0eaff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.ql-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-color: #1e40af;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    }
+  }
+
+  &.ql-important {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-color: #047857;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    }
+  }
+}
+
+// Footer Mobile
+.ql-footer-mobile {
+  display: none;
+  flex-direction: column;
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 0.75rem;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.ql-footer-content {
+  display: flex;
+  gap: 0.75rem;
+
+  .ql-btn {
+    flex: 1;
+  }
+}
+
+.ql-panel {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.small {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+// Animations
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Mobile Responsive
+@media (max-width: 768px) {
+  .ql-header {
+    padding: 0.75rem 1rem;
+
+    .icon-btn.hamburger {
+      display: block;
+    }
+  }
+
+  .ql-sidebar {
+    display: none;
+  }
+
+  .ql-container {
+    flex-direction: column;
+  }
+
+  .ql-content-area {
+    padding: 1.5rem;
+  }
+
+  .ql-controls-desktop {
+    display: none;
+  }
+
+  .ql-footer-mobile {
+    display: flex;
+  }
+
+  .ql-choices {
+    grid-template-columns: 1fr;
+  }
+
+  h2 {
+    font-size: 1.375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ql-header {
+    padding: 0.5rem;
+  }
+
+  .ql-title {
+    font-size: 1rem;
+  }
+
+  .ql-content-area {
+    padding: 1rem;
+
+    h2 {
+      font-size: 1.125rem;
+    }
+  }
+
+  .ql-btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .ql-question-text {
+    font-size: 1rem;
+  }
+
+  .ql-choice {
+    padding: 0.75rem;
+  }
+}

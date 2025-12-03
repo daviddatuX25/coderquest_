@@ -10,6 +10,15 @@ import '../styles/_lesson.scss';
  *   - onClose: callback to close lesson
  */
 const Lesson = ({ lessonData, onStartQuiz, onClose }) => {
+  React.useEffect(() => {
+    console.log('📖 Lesson component mounted with data:', {
+      title: lessonData?.title,
+      hasContent: !!lessonData?.content,
+      hasQuizId: !!lessonData?.quizId,
+      quizId: lessonData?.quizId
+    });
+  }, [lessonData]);
+
   return (
     <div className="lesson-container">
       <div className="lesson-header">

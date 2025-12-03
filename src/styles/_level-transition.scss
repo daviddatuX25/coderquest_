@@ -1,0 +1,223 @@
+@import './variables';
+@import './mixins';
+
+/**
+ * Level Transition UI Styles
+ * Overlay that appears when player reaches level endpoint
+ */
+
+.level-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.level-transition-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease-out;
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+.level-transition-header {
+  text-align: center;
+  margin-bottom: 24px;
+  color: white;
+
+  h2 {
+    font-size: 32px;
+    margin: 0 0 8px 0;
+    font-weight: 700;
+  }
+
+  .level-info {
+    font-size: 14px;
+    margin: 0;
+    opacity: 0.9;
+  }
+}
+
+.level-transition-body {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  color: white;
+}
+
+.level-stats {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.stat-item {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+
+  .stat-label {
+    display: block;
+    font-size: 12px;
+    opacity: 0.8;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-value {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.level-message {
+  p {
+    margin: 8px 0;
+    font-size: 14px;
+
+    &:first-child {
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    &.hint {
+      font-size: 13px;
+      opacity: 0.85;
+      font-style: italic;
+    }
+  }
+}
+
+.level-transition-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  .btn {
+    @include button-reset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-icon {
+      font-size: 18px;
+    }
+
+    .btn-text {
+      flex: 1;
+    }
+  }
+
+  .btn-proceed {
+    background: #4CAF50;
+    color: white;
+    box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+
+    &:hover:not(:disabled) {
+      background: #45a049;
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+  }
+
+  .btn-stay {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+.level-transition-footer {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+
+  small {
+    display: block;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .level-transition-container {
+    padding: 24px;
+  }
+
+  .level-transition-header h2 {
+    font-size: 24px;
+  }
+
+  .level-stats {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .level-transition-actions .btn {
+    font-size: 13px;
+    padding: 12px 14px;
+  }
+}

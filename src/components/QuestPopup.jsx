@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Lesson from './Lesson';
 import Quiz from './Quiz';
+import { useGameEventEmitter } from '../hooks/useGameEvents';
 import '../styles/_quest-popup.scss';
 
 /**
@@ -11,17 +12,27 @@ import '../styles/_quest-popup.scss';
  *   - questData: { id, lesson, quiz }
  *   - isOpen: boolean to control visibility
  *   - onClose: callback when popup closes
+ *   - onComplete: callback(score, results) when quiz completes
  */
-const QuestPopup = ({ questData, isOpen, onClose }) => {
+const QuestPopup = ({ questData, isOpen, onClose, onComplete }) => {
   const [mode, setMode] = useState('lesson'); // 'lesson' or 'quiz'
   const [isAnimating, setIsAnimating] = useState(false);
+  const { emit } = useGameEventEmitter();
 
   React.useEffect(() => {
     if (isOpen) {
       setIsAnimating(true);
       setMode('lesson');
+      console.log('🎯 QuestPopup opened with questData:', {
+        hasQuestData: !!questData,
+        hasLesson: !!questData?.lesson,
+        hasQuiz: !!questData?.quiz,
+        lessonTitle: questData?.lesson?.title,
+        quizTitle: questData?.quiz?.title,
+        quizQuestionCount: questData?.quiz?.questions?.length || 0
+      });
     }
-  }, [isOpen]);
+  }, [isOpen, questData]);
 
   const handleClose = () => {
     setIsAnimating(false);
@@ -32,11 +43,15 @@ const QuestPopup = ({ questData, isOpen, onClose }) => {
   };
 
   const handleStartQuiz = () => {
+    // Keep input disabled when entering quiz
     setMode('quiz');
+    emit('quizStarted', { questId: questData?.id });
   };
 
   const handleBackToLesson = () => {
+    // Keep input disabled - still in UI
     setMode('lesson');
+    emit('quizEnded', { questId: questData?.id });
   };
 
   if (!isOpen) return null;
@@ -60,10 +75,7 @@ const QuestPopup = ({ questData, isOpen, onClose }) => {
           {mode === 'quiz' && questData.quiz && (
             <Quiz
               quizData={questData.quiz}
-              onComplete={() => {
-                // Quiz completed - stay on results screen
-                // User can retry or go back to lesson
-              }}
+              onComplete={onComplete}
               onBack={handleBackToLesson}
             />
           )}

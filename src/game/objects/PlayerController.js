@@ -18,7 +18,7 @@ export class PlayerController {
     this.scene = scene
     this.x = x
     this.y = y
-    this.speed = 150
+    this.speed = 100
     this.isMoving = false
     this.currentDirection = 'down'
     this.lastPlayedAnim = 'idle-down'
@@ -36,7 +36,7 @@ export class PlayerController {
     
     // Resize physics body to feet only (frame: 32x32px)
     this.sprite.body.setSize(14, 10)
-    this.sprite.body.setOffset(9, 22)
+    this.sprite.body.setOffset(9, 16)
     
     this.sprite.controller = this
   }
@@ -109,31 +109,26 @@ export class PlayerController {
         vy = -speed
         this.currentDirection = 'up'
         this.playWalkAnimation('walk-up', false)
-        console.log(`🔼 Moving UP - velocity: (${vx}, ${vy})`)
         break
       case 'down':
         vy = speed
         this.currentDirection = 'down'
         this.playWalkAnimation('walk-down', false)
-        console.log(`🔽 Moving DOWN - velocity: (${vx}, ${vy})`)
         break
       case 'left':
         vx = -speed
         this.currentDirection = 'left'
         this.playWalkAnimation('walk-side', true)  // Flip for left
-        console.log(`◀️ Moving LEFT - velocity: (${vx}, ${vy})`)
         break
       case 'right':
         vx = speed
         this.currentDirection = 'right'
         this.playWalkAnimation('walk-side', false)  // No flip for right
-        console.log(`▶️ Moving RIGHT - velocity: (${vx}, ${vy})`)
         break
     }
 
     this.sprite.setVelocity(vx, vy)
     this.isMoving = true
-    console.log(`📍 Player pos: (${this.sprite.x.toFixed(0)}, ${this.sprite.y.toFixed(0)})`)
   }
 
   /**
@@ -153,7 +148,6 @@ export class PlayerController {
   stop() {
     this.sprite.setVelocity(0, 0)
     this.isMoving = false
-    console.log(`⏸️ Movement stopped - pos: (${this.sprite.x.toFixed(0)}, ${this.sprite.y.toFixed(0)})`)
     this.playIdleAnimation()
   }
 

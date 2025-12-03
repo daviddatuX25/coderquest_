@@ -35,15 +35,28 @@ const FillInBlanksQuestion = ({ question, onAnswer, disabled }) => {
     }));
   };
 
+  // Normalize answer for comparison (trim, lowercase, normalize spaces)
+  const normalizeAnswer = (answer) => answer?.trim().toLowerCase().replace(/\s+/g, ' ') || '';
+
   const handleSubmit = () => {
     if (answered || disabled) return;
 
-    // Check answers
-    const userAnswers = Object.values(answers).map(a => a?.trim().toLowerCase() || '');
-    const correctAnswers = question.answers.map(a => a.toLowerCase());
+    const userAnswers = Object.values(answers).map(a => normalizeAnswer(a));
+    const correctAnswers = question.answers.map(a => normalizeAnswer(a));
+    const numBlanks = question.sentence.split(/\[BLANK\]/).length - 1;
+
+    // Logic depends on whether we have multiple blanks or multiple acceptable answers
+    let isCorrect = false;
     
-    const isCorrect = userAnswers.length === correctAnswers.length &&
-      userAnswers.every((answer, i) => answer === correctAnswers[i]);
+    if (numBlanks === 1 && correctAnswers.length > 1) {
+      // Single blank with multiple acceptable answers (OR logic)
+      // User entered one answer - check if it matches ANY acceptable answer
+      isCorrect = userAnswers.length === 1 && correctAnswers.includes(userAnswers[0]);
+    } else {
+      // Multiple blanks - each must match corresponding answer
+      isCorrect = userAnswers.length === correctAnswers.length &&
+        userAnswers.every((answer, i) => answer === correctAnswers[i]);
+    }
 
     setAnswered(true);
     setFeedback({
@@ -57,6 +70,21 @@ const FillInBlanksQuestion = ({ question, onAnswer, disabled }) => {
   };
 
   const parts = parseSentence();
+  const numBlanks = parts.length - 1;
+  const correctAnswers = question.answers.map(a => normalizeAnswer(a));
+
+  // Determine if an answer is correct based on question type
+  const isAnswerCorrect = (blankIndex, userAnswer) => {
+    const normalized = normalizeAnswer(userAnswer);
+    
+    if (numBlanks === 1 && correctAnswers.length > 1) {
+      // Single blank with multiple acceptable answers
+      return correctAnswers.includes(normalized);
+    } else {
+      // Multiple blanks - check specific position
+      return normalizeAnswer(question.answers[blankIndex]) === normalized;
+    }
+  };
 
   return (
     <div className="fill-in-blanks-question">
@@ -74,7 +102,7 @@ const FillInBlanksQuestion = ({ question, onAnswer, disabled }) => {
                   ref={el => inputRefs.current[index] = el}
                   type="text"
                   className={`blank-input ${
-                    answered ? (question.answers[index].toLowerCase() === answers[index]?.toLowerCase() ? 'correct' : 'incorrect') : ''
+                    answered ? (isAnswerCorrect(index, answers[index]) ? 'correct' : 'incorrect') : ''
                   }`}
                   placeholder={`Answer ${index + 1}`}
                   value={answers[index] || ''}

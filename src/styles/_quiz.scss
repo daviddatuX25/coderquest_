@@ -75,6 +75,11 @@
   border-radius: $radius-lg;
   border: 1px solid $color-border;
   min-height: 300px;
+  transition: opacity 300ms ease-in-out;
+
+  &.transitioning {
+    opacity: 0;
+  }
 }
 
 .quiz-footer {
@@ -82,7 +87,8 @@
   gap: $spacing-md;
   padding-top: $spacing-lg;
   border-top: 1px solid $color-border;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .back-btn {
@@ -108,5 +114,48 @@
   &:focus-visible {
     outline: 2px solid $color-primary;
     outline-offset: 2px;
+  }
+}
+
+.next-btn {
+  padding: $spacing-sm $spacing-lg;
+  background: linear-gradient(90deg, $color-primary 0%, $color-secondary 100%);
+  color: white;
+  border: none;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  animation: slideInRight 300ms ease-out;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px) translateX(2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

@@ -49,6 +49,12 @@ class EventEmitter {
 }
 
 // Global instance
-export const gameEvents = new EventEmitter()
+const gameEvents = new EventEmitter()
 
+// Also attach to window for React integration
+if (typeof window !== 'undefined') {
+  window.gameEvents = gameEvents
+}
+
+export { gameEvents }
 export default EventEmitter
